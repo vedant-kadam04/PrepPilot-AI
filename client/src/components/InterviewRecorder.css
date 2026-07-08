@@ -1,0 +1,167 @@
+/* ===========================
+   Recorder Container
+=========================== */
+
+.recorder-container{
+   flex-direction:column;
+   width:100%;
+   display:flex;
+    margin-top:30px;
+    align-items:center;
+}
+
+/* ===========================
+   Live Camera
+=========================== */
+
+.live-video{
+    width:100%;
+    max-width:720px;
+    height:420px;
+    object-fit:cover;
+    border-radius:16px;
+    border:3px solid #2563eb;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.15);
+    display:block;
+}
+
+/* ===========================
+   Controls
+=========================== */
+
+.recording-controls{
+    margin-top:25px;
+
+    display:flex;
+    justify-content:center;
+    gap:18px;
+}
+
+/* ===========================
+   Buttons
+=========================== */
+
+.record-btn,
+.stop-btn{
+
+    padding:12px 28px;
+
+    border:none;
+    border-radius:10px;
+
+    color:white;
+    font-size:16px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.record-btn{
+
+    background:#2563eb;
+
+}
+
+.record-btn:hover{
+
+    background:#1d4ed8;
+    transform:translateY(-2px);
+
+}
+
+.stop-btn{
+
+    background:#dc2626;
+
+}
+
+.stop-btn:hover{
+
+    background:#b91c1c;
+    transform:translateY(-2px);
+
+}
+
+.record-btn:disabled,
+.stop-btn:disabled{
+
+    background:#94a3b8;
+    cursor:not-allowed;
+    transform:none;
+
+}
+
+/* ===========================
+   Recorded Video
+=========================== */
+
+.recorded-video-section{
+
+    margin-top:40px;
+
+}
+
+.recorded-video{
+
+    width:100%;
+    max-width:720px;
+
+    border-radius:16px;
+
+    border:3px solid #16a34a;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.12);
+
+}
+
+/* ===========================
+   Transcript
+=========================== */
+
+.transcript-section{
+
+    margin-top:35px;
+
+}
+
+.transcript-section h3{
+
+    color:#1e293b;
+    margin-bottom:15px;
+
+}
+
+.transcript-box{
+
+    width:100%;
+    min-height:180px;
+
+    resize:none;
+
+    padding:18px;
+
+    border-radius:12px;
+
+    border:1px solid #dbe4ee;
+
+    background:#f8fafc;
+
+    font-size:15px;
+
+    line-height:1.6;
+
+    outline:none;
+
+    box-sizing:border-box;
+
+}
+
+.transcript-box:focus{
+
+    border-color:#2563eb;
+    box-shadow:0 0 0 3px rgba(37,99,235,.15);
+
+}

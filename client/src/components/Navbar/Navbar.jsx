@@ -16,7 +16,7 @@ function Navbar() {
       </div>
 
       <div className="navbar-links">
-        <Link to="/dashboard">Welcome</Link>
+        
 
         <button className="logout-btn" onClick={handleLogout}>
           Logout

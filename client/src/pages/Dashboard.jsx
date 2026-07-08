@@ -35,6 +35,13 @@ function Dashboard() {
           },
         },
       );
+      setFormData({
+        title: "",
+        role: "",
+        difficulty: "Easy",
+      });
+
+      navigate(`/interview/${response.data.id}`);
 
       console.log(response.data);
     } catch (error) {
@@ -68,6 +75,24 @@ function Dashboard() {
     }
   };
 
+  const deleteInterview = async (id) => {
+    const confirmDelete = window.confirm("Delete this interview?");
+
+    if (!confirmDelete) return;
+
+    try {
+      await api.delete(`/interviews/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      setInterviews((prev) => prev.filter((interview) => interview.id !== id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetchInterviews();
   }, []);
@@ -75,34 +100,35 @@ function Dashboard() {
   return (
     <>
       <Navbar />
-      <div className="stats-container">
-        <div className="stat-card">
-          <div className="stat-icon">📋</div>
 
-          <h2>{interviews.length}</h2>
-
-          <h4>Total Interviews</h4>
-
-          <p>Practice sessions created</p>
-        </div>
-
-        <div className="stat-card">
-          <div className="stat-icon">📚</div>
-
-          <h2>{interviews.length}</h2>
-
-          <h4>Interview History</h4>
-
-          <p>Your previous mock interviews</p>
-        </div>
-      </div>
       <div className="dashboard-container">
         <div className="dashboard-header">
-          <h1>Welcome back, {user ? user.name : "User"} 👋</h1>
+          <h1>Welcome back, {user ? user.name : "User"} </h1>
 
           <p>
-            Practice AI-powered interviews and sharpen your technical skills.
+            Practice. Improve. Get Hired.
           </p>
+        </div>
+        <div className="stats-container">
+          <div className="stat-card">
+            <div className="stat-icon">📋</div>
+
+            <h2>{interviews.length}</h2>
+
+            <h4>Total Interviews</h4>
+
+            <p>Practice sessions created</p>
+          </div>
+
+          <div className="stat-card">
+            <div className="stat-icon">📚</div>
+
+            <h2>{interviews.length}</h2>
+
+            <h4>Interview History</h4>
+
+            <p>Your previous mock interviews</p>
+          </div>
         </div>
         <div className="create-card">
           <h3>Create Interview</h3>
@@ -137,20 +163,25 @@ function Dashboard() {
             {loading ? "Generating..." : "Generate Interview"}
           </button>
         </div>
-        <h2 className="section-title">History</h2>
+        <div className="history-header">
+          <h2>Interview History</h2>
+          <span>{interviews.length} Interviews</span>
+        </div>
 
         {interviews.map((interview) => (
           <div className="interview-card" key={interview.id}>
             <div className="interview-info">
-              <h3>{interview.title}</h3>
+              <div className="card-meta">
+                <h3>{interview.title}</h3>
 
-              <p>{interview.role}</p>
+                <p>{interview.role}</p>
 
-              <span
-                className={`difficulty-badge ${interview.difficulty.toLowerCase()}`}
-              >
-                {interview.difficulty}
-              </span>
+                <span
+                  className={`difficulty-badge ${interview.difficulty.toLowerCase()}`}
+                >
+                  {interview.difficulty}
+                </span>
+              </div>
             </div>
 
             <button
@@ -158,6 +189,13 @@ function Dashboard() {
               onClick={() => navigate(`/interview/${interview.id}`)}
             >
               View →
+            </button>
+
+            <button
+              className="delete-btn"
+              onClick={() => deleteInterview(interview.id)}
+            >
+              Delete
             </button>
           </div>
         ))}

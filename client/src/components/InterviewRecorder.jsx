@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
+import "./InterviewRecorder.css";
 
-function InterviewRecorder({onAnswerRecorded}) {
+function InterviewRecorder({ onAnswerRecorded }) {
   const videoRef = useRef(null);
   const mediaRecorderRef = useRef(null);
   const chunksRef = useRef([]);
@@ -51,7 +52,7 @@ function InterviewRecorder({onAnswerRecorded}) {
       };
 
       recognitionRef.current = recognition;
-    }else{
+    } else {
       setError("Speech Recognition is not supported in this browser");
     }
 
@@ -101,8 +102,8 @@ function InterviewRecorder({onAnswerRecorded}) {
       const videoURL = URL.createObjectURL(blob);
 
       setRecordedVideo(videoURL);
-      
-      if(onAnswerRecorded){
+
+      if (onAnswerRecorded) {
         onAnswerRecorded(transcript);
       }
       setRecording(false);
@@ -110,63 +111,43 @@ function InterviewRecorder({onAnswerRecorded}) {
   };
 
   return (
-    <div>
+    <div className="recorder-container">
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      <video
-        ref={videoRef}
-        autoPlay
-        playsInline
-        muted
-        style={{
-          width: "600px",
-          height: "400px",
-          border: "2px solid black",
-          borderRadius: "10px",
-        }}
-      />
+      <video ref={videoRef} autoPlay playsInline muted className="live-video" />
 
-      <div style={{ marginTop: "20px" }}>
-        <button onClick={startRecording} disabled={recording}>
+      <div className="recording-controls">
+        <button
+          className="record-btn"
+          onClick={startRecording}
+          disabled={recording}
+        >
           Start Recording
         </button>
 
         <button
+          className="stop-btn"
           onClick={stopRecording}
           disabled={!recording}
-          style={{ marginLeft: "10px" }}
         >
           Stop Recording
         </button>
       </div>
       {recordedVideo && (
-        <div style={{ marginTop: "30px" }}>
+        <div className="recorder-video-section">
           <h3>Recorded Answer</h3>
 
-          <video
-            src={recordedVideo}
-            controls
-            style={{
-              width: "600px",
-              border: "2px solid green",
-            }}
-          />
+          <video src={recordedVideo} controls className="recorded-video" />
         </div>
       )}
 
-      <div style={{ marginTop: "20px" }}>
-        <h3>Your Answer</h3>
+      {transcript && (
+        <div className="transcript-section">
+          <h3>Your Answer</h3>
 
-        <textarea
-          rows={8}
-          value={transcript}
-          readOnly
-          style={{
-            width: "100%",
-            padding: "10px",
-          }}
-        />
-      </div>
+          <textarea className="transcript-box" value={transcript} readOnly />
+        </div>
+      )}
     </div>
   );
 }

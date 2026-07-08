@@ -1,7 +1,9 @@
 import { useState , useContext} from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/context";
+import { Link } from "react-router-dom";
 import api from "../services/api";
+import "./Auth.css";
 
 function Login() {
   const { setUser } = useContext(AuthContext); 
@@ -52,17 +54,9 @@ function Login() {
   
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      style={{
-        width: "400px",
-        margin: "50px auto",
-        display: "flex",
-        flexDirection: "column",
-        gap: "15px",
-      }}
-    >
-      <h1>Login</h1>
+    <div className="auth-container">
+    <form className="auth-form" onSubmit={handleSubmit}>
+      <h1>Welcome,back!</h1>
 
       <input
         type="email"
@@ -83,7 +77,11 @@ function Login() {
       <button type="submit">
         Login
       </button>
+      <p className="auth-link">
+        Don't have an account? <Link to="/register">Register</Link>
+      </p>
     </form>
+    </div>
   );
 }
 

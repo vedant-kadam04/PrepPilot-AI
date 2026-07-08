@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import InterviewRecorder from "../components/InterviewRecorder";
+import "./interview.css";
 
 function Interview() {
   const { id } = useParams();
@@ -53,7 +54,6 @@ function Interview() {
     } catch (error) {
       console.error(error);
     }
-    
   };
 
   useEffect(() => {
@@ -61,91 +61,84 @@ function Interview() {
   }, []);
 
   if (!interview) {
-    return <h2>Loading...</h2>;
+    return( 
+    <div className="interview-page">
+    <h2>Loading...</h2>
+    </div>
+    );
   }
 
   return (
-    <div
-      style={{
-        width: "900px",
-        margin: "40px auto",
-      }}
-    >
-      <h1>{interview.title}</h1>
+    <div className="interview-page">
+      <div className="Interview-Meta">
+        <h1>{interview.title}</h1>
 
-      <p>
-        <strong>Role:</strong> {interview.role}
-      </p>
+        <p>
+          <strong>Role:</strong> {interview.role}
+        </p>
 
-      <p>
-        <strong>Difficulty:</strong> {interview.difficulty}
-      </p>
+        <p>
+          <strong>Difficulty:</strong> {interview.difficulty}
+        </p>
 
-      <hr />
+        <hr />
 
-      <h2>
-        Question {currentQuestion + 1} of {interview.questions.length}
-      </h2>
-
-      <div
-        style={{
-          border: "1px solid gray",
-          padding: "20px",
-          borderRadius: "10px",
-          marginBottom: "20px",
-        }}
-      >
-        {interview.questions[currentQuestion]}
+        <h2>
+          Question {currentQuestion + 1} of {interview.questions.length}
+        </h2>
+      </div>
+      <div className="progress-bar">
+        <div
+          className="progress-fill"
+          style={{
+            width: `${
+              ((currentQuestion + 1) / interview.questions.length) * 100
+            }%`,
+          }}
+        ></div>
       </div>
 
-      <InterviewRecorder
-        onAnswerRecorded={(answer) => {
-          setAnswers((prev) => {
-            const updatedAnswers = [...prev];
-            updatedAnswers[currentQuestion] = answer;
-            return updatedAnswers;
-          });
-        }}
-      />
+      <div className="question-card">
+        <h3>Interview Question</h3>
+        <p>{interview.questions[currentQuestion]}</p>
+      </div>
+      <div className="recorder-section">
+        <InterviewRecorder
+          onAnswerRecorded={(answer) => {
+            setAnswers((prev) => {
+              const updatedAnswers = [...prev];
+              updatedAnswers[currentQuestion] = answer;
+              return updatedAnswers;
+            });
+          }}
+        />
+      </div>
 
-      <br />
-      <div
-        style={{
-          marginTop: "20px",
-          padding: "15px",
-          border: "1px solid gray",
-          borderRadius: "8px",
-        }}
-      >
+      
+      <div className="answer-card">
         <h3>Saved Answer</h3>
 
         <p>{answers[currentQuestion] || "No answer recorded yet."}</p>
       </div>
+      <div className="navigation-buttons">
+        <button
+          onClick={() => setCurrentQuestion((prev) => prev - 1)}
+          disabled={currentQuestion === 0}
+        >
+          Previous
+        </button>
 
-      <button
-        onClick={() => setCurrentQuestion((prev) => prev - 1)}
-        disabled={currentQuestion === 0}
-      >
-        Previous
-      </button>
+        <button
+          onClick={() => setCurrentQuestion((prev) => prev + 1)}
+          disabled={currentQuestion === interview.questions.length - 1}
+        >
+          Next
+        </button>
 
-      <button
-        style={{ marginLeft: "10px" }}
-        onClick={() => setCurrentQuestion((prev) => prev + 1)}
-        disabled={currentQuestion === interview.questions.length - 1}
-      >
-        Next
-      </button>
-      <button
-        style={{
-          marginLeft: "10px",
-          backgroundColor: "green",
-          color: "white",
-        }}
-        onClick={submitInterview}
-      >
-        Finish Interview
-      </button>
+        <button className="finish-btn" onClick={submitInterview}>
+          Finish Interview
+        </button>
+      </div>
     </div>
   );
 }

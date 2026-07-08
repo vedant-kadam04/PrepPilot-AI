@@ -4,7 +4,7 @@
   align-items: center;
 
   padding: 15px 40px;
-  background: #2563eb;
+  background: #1e21dfd3;
   color: white;
 }
 
@@ -13,6 +13,7 @@
   text-decoration: none;
   font-size: 24px;
   font-weight: bold;
+  font-style:normal;
 }
 
 .navbar-links {
